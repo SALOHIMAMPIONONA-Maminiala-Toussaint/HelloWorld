@@ -9,13 +9,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/SALOHIMAMPIONONA-Maminiala-Toussaint/HelloWorld.git'
+                git branch: 'main', url: 'https://github.com/SALOHIMAMPIONONA-Maminiala-Toussaint/HelloWorld.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
     }
