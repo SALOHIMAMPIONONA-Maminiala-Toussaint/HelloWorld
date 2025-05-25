@@ -2,8 +2,13 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.9' // Nom configuré dans Jenkins
-        jdk 'JDK 17'         // Adapte au JDK que tu utilises
+        maven 'Maven 3.9.9'
+        jdk 'JDK 17'
+    }
+
+    environment {
+        // Nécessaire pour l’authentification avec SonarQube
+        SONAR_SCANNER_OPTS = "-Xmx512m"
     }
 
     stages {
@@ -13,9 +18,9 @@ pipeline {
             }
         }
 
-        stage('Clean & Compile') {
+        stage('Build') {
             steps {
-                bat 'mvn clean compile'
+                bat 'mvn clean install'
             }
         }
 
@@ -25,15 +30,17 @@ pipeline {
             }
         }
 
-        stage('Package') {
+        stage('Analyse SonarQube') {
             steps {
-                bat 'mvn package'
+                withSonarQubeEnv('SonarQube Local') {
+                    bat 'mvn sonar:sonar'
+                }
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Package') {
             steps {
-                bat 'mvn sonar:sonar'
+                bat 'mvn package'
             }
         }
 
