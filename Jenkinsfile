@@ -6,10 +6,7 @@ pipeline {
         jdk 'JDK 17'
     }
 
-    environment {
-        // Nécessaire pour l’authentification avec SonarQube
-        SONAR_SCANNER_OPTS = "-Xmx512m"
-    }
+   
 
     stages {
         stage('Checkout') {
@@ -30,10 +27,13 @@ pipeline {
             }
         }
 
-        stage('Analyse SonarQube') {
+        stage('SonarQube Analysis') {
+            environment {
+                SONAR_TOKEN = credentials('sonarqube-token')  // Ton ID d'identifiants Jenkins
+            }
             steps {
-                withSonarQubeEnv('SonarQube Local') {
-                    bat 'mvn sonar:sonar'
+                withSonarQubeEnv('SonarQube Local') {   // Le nom de ton installation SonarQube dans Jenkins Configure System
+                    bat "mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
         }
