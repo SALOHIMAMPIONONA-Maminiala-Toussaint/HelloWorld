@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven_3.9.9' // Nom de l'installation Maven dans Jenkins
-        jdk 'JDK_17'         // Adapte à ta version Java (par ex. Java 17)
+        maven 'Maven 3.9.9' // Nom de l'installation Maven dans Jenkins
+        jdk 'JDK 17'         // Adapte à ta version Java (par ex. Java 17)
     }
 
     stages {
