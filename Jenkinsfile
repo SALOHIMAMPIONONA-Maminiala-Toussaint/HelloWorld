@@ -5,18 +5,19 @@ pipeline {
         maven 'Maven 3.9.9'
         jdk 'JDK 17'
     }
-environment {
+
+    environment {
         DOCKER_IMAGE = 'mampionona2000/helloworld:1.0.0'
     }
-   stages {
+
+    stages {
 
         stage('Verify Docker') {
             steps {
                 bat 'docker --version'
             }
         }
-}
-    stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/SALOHIMAMPIONONA-Maminiala-Toussaint/HelloWorld.git'
@@ -28,7 +29,8 @@ environment {
                 bat 'mvn clean install'
             }
         }
-		stage('Docker Build') {
+
+        stage('Docker Build') {
             steps {
                 bat "docker build -t %DOCKER_IMAGE% ."
             }
@@ -51,10 +53,10 @@ environment {
 
         stage('SonarQube Analysis') {
             environment {
-                SONAR_TOKEN = credentials('sonarqube-token')  // Ton ID d'identifiants Jenkins
+                SONAR_TOKEN = credentials('sonarqube-token')
             }
             steps {
-                withSonarQubeEnv('SonarQube Local') {   // Le nom de ton installation SonarQube dans Jenkins Configure System
+                withSonarQubeEnv('SonarQube Local') {
                     bat "mvn sonar:sonar -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
@@ -65,7 +67,5 @@ environment {
                 bat 'mvn package'
             }
         }
-
-        
     }
 }
