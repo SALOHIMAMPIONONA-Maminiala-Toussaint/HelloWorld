@@ -15,7 +15,7 @@ environment {
                 bat 'docker --version'
             }
         }
-
+}
     stages {
         stage('Checkout') {
             steps {
