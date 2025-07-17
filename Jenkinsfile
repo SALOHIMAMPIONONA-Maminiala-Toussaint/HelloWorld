@@ -8,7 +8,13 @@ pipeline {
 environment {
         DOCKER_IMAGE = 'mampionona2000/helloworld:1.0.0'
     }
-   
+   stages {
+
+        stage('Verify Docker') {
+            steps {
+                bat 'docker --version'
+            }
+        }
 
     stages {
         stage('Checkout') {
@@ -28,7 +34,7 @@ environment {
             }
         }
 
-	stage('Docker Push') {
+        stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhubpass', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
