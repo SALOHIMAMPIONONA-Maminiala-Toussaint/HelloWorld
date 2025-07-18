@@ -26,10 +26,12 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                bat 'mvn clean install'
-            }
-        }
+    steps {
+        bat 'mvn clean install'
+        bat 'dir target'
+    }
+}
+
 
         stage('Docker Build') {
     steps {
