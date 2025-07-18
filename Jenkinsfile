@@ -34,9 +34,10 @@ pipeline {
         stage('Docker Build') {
     steps {
         bat 'mkdir %WORKSPACE%\\.docker'
-        bat 'set DOCKER_CONFIG=%WORKSPACE%\\.docker && "%DOCKER_PATH%" build -t %DOCKER_IMAGE% ."'
+        bat 'set DOCKER_CONFIG=%WORKSPACE%\\.docker && "%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
     }
 }
+
 
 
         stage('Docker Push') {
