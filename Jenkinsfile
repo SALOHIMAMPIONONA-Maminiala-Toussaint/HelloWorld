@@ -7,6 +7,7 @@ pipeline {
     }
 
     environment {
+        DOCKER_PATH = 'C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe'
         DOCKER_IMAGE = 'mampionona2000/helloworld:1.0.0'
     }
 
@@ -14,7 +15,7 @@ pipeline {
 
         stage('Verify Docker') {
             steps {
-                bat 'docker --version'
+                bat '"%DOCKER_PATH%" --version'
             }
         }
 
@@ -32,15 +33,15 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat "docker build -t %DOCKER_IMAGE% ."
+                bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% ."'
             }
         }
 
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jenkins-docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
-                    bat "docker push %DOCKER_IMAGE%"
+                    bat '"%DOCKER_PATH%" login -u %DOCKER_USER% -p %DOCKER_PASS%"'
+                    bat '"%DOCKER_PATH%" push %DOCKER_IMAGE%'
                 }
             }
         }
