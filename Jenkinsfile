@@ -35,11 +35,7 @@ pipeline {
 
         stage('Docker Build') {
     steps {
-        bat """
-            if exist "%WORKSPACE%\\.docker" rmdir /S /Q "%WORKSPACE%\\.docker"
-            mkdir "%WORKSPACE%\\.docker"
-            set DOCKER_CONFIG=%WORKSPACE%\\.docker&& "%DOCKER_PATH%" build -t %DOCKER_IMAGE% .
-        """
+       bat "docker build -t %DOCKER_IMAGE% ."
     }
 }
 
