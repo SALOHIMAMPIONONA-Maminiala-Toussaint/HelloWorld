@@ -32,16 +32,14 @@ pipeline {
         }
 
         stage('Docker Build') {
-            steps {
-                bat '''
-                    if exist "%WORKSPACE%\\.docker" rmdir /S /Q "%WORKSPACE%\\.docker"
-                    mkdir "%WORKSPACE%\\.docker"
-                    set DOCKER_CONFIG=%WORKSPACE%\\.docker && "%DOCKER_PATH%" build -t %DOCKER_IMAGE% .
-                '''
-            }
-        }
-
-
+    steps {
+        bat """
+            if exist "%WORKSPACE%\\.docker" rmdir /S /Q "%WORKSPACE%\\.docker"
+            mkdir "%WORKSPACE%\\.docker"
+            set DOCKER_CONFIG=%WORKSPACE%\\.docker&& "%DOCKER_PATH%" build -t %DOCKER_IMAGE% .
+        """
+    }
+}
 
         stage('Docker Push') {
             steps {
