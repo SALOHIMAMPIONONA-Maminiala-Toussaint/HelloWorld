@@ -7,9 +7,11 @@ pipeline {
     }
 
     environment {
-        DOCKER_PATH = 'C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe'
-        DOCKER_IMAGE = 'mampionona2000/helloworld:1.0.0'
-    }
+    DOCKER_PATH = 'C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe'
+    CRED_HELPER_PATH = 'C:\\Program Files\\Docker\\Docker\\resources\\bin'
+    DOCKER_IMAGE = 'mampionona2000/helloworld:1.0.0'
+    PATH = "${env.CRED_HELPER_PATH};${env.PATH}"
+}
 
     stages {
 
@@ -35,10 +37,11 @@ pipeline {
 
         stage('Docker Build') {
     steps {
-
-	    bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
+        bat 'set PATH=C:\\Program Files\\Docker\\Docker\\resources\\bin;%PATH%'
+        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
     }
 }
+
 
         stage('Docker Push') {
             steps {
