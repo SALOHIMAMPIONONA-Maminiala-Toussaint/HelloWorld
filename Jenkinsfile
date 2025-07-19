@@ -59,17 +59,11 @@ pipeline {
                 bat 'mvn package'
             }
         }
-		stage('Prepare JAR') {
-    steps {
-        bat 'dir target'
-        bat 'copy target\\HelloWorld-0.0.1-SNAPSHOT.jar HelloWorld.jar'
-    }
-}
 
-		
 		stage('Docker Build') {
         steps {
-		bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
+		bat 'dir target' 
+        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
         
     }
 }
