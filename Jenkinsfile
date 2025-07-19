@@ -35,10 +35,7 @@ pipeline {
 }
 
 
-        
-
-
-        
+       
 
         stage('Test') {
             steps {
@@ -64,8 +61,8 @@ pipeline {
         }
 		stage('Docker Build') {
         steps {
-        bat 'set PATH=C:\\Program Files\\Docker\\Docker\\resources\\bin;%PATH%'
-        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
+		bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
+        
     }
 }
 stage('Docker Push') {
