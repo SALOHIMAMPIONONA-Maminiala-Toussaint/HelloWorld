@@ -61,10 +61,10 @@ pipeline {
         }
 
 		stage('Docker Build') {
-        steps {
-		bat 'dir target' 
-        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
+    steps {
         
+        bat 'dir target\\*.jar' 
+        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
     }
 }
 stage('Docker Push') {
