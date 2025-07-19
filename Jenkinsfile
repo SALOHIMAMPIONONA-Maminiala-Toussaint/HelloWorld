@@ -35,22 +35,10 @@ pipeline {
 }
 
 
-        stage('Docker Build') {
-    steps {
-        bat 'set PATH=C:\\Program Files\\Docker\\Docker\\resources\\bin;%PATH%'
-        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
-    }
-}
+        
 
 
-        stage('Docker Push') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'jenkins-docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    bat '"%DOCKER_PATH%" login -u %DOCKER_USER% -p %DOCKER_PASS%"'
-                    bat '"%DOCKER_PATH%" push %DOCKER_IMAGE%'
-                }
-            }
-        }
+        
 
         stage('Test') {
             steps {
@@ -72,6 +60,20 @@ pipeline {
         stage('Package') {
             steps {
                 bat 'mvn package'
+            }
+        }
+		stage('Docker Build') {
+        steps {
+        bat 'set PATH=C:\\Program Files\\Docker\\Docker\\resources\\bin;%PATH%'
+        bat '"%DOCKER_PATH%" build -t %DOCKER_IMAGE% .'
+    }
+}
+stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    bat '"%DOCKER_PATH%" login -u %DOCKER_USER% -p %DOCKER_PASS%"'
+                    bat '"%DOCKER_PATH%" push %DOCKER_IMAGE%'
+                }
             }
         }
     }
